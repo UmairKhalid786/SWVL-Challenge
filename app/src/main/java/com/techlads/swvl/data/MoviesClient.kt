@@ -7,6 +7,7 @@ import com.techlads.swvl.data.models.MoviesResponse
 import dagger.hilt.EntryPoint
 import org.json.JSONException
 import java.io.*
+import javax.inject.Inject
 
 /**
  *
@@ -16,15 +17,15 @@ import java.io.*
  * @package com.techlads.swvl
  */
 
-@EntryPoint
-class MoviesClient(private val context: Context , val moshi : Moshi) {
+class MoviesClient @Inject constructor(private val context: Context, val moshi : Moshi) {
 
     companion object {
         private const val JSON_FILE = "movies.json"
         private val TAG = MoviesClient::class.java.simpleName
     }
 
-    fun fetchBlocksData(): List<MoviesResponse.Movie>? {
+    fun fetchBlocksDataInString(): String? {
+
         return try {
             val inputStream: InputStream = context.assets.open(JSON_FILE)
             val streamReader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
@@ -35,8 +36,7 @@ class MoviesClient(private val context: Context , val moshi : Moshi) {
                 stringBuilder.append(input)
             }
 
-            val blocksList = mutableListOf<MoviesResponse.Movie>()
-            blocksList
+            return stringBuilder.toString()
         } catch (e: JSONException) {
             Log.e(TAG, e.toString())
             null

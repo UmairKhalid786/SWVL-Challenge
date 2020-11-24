@@ -4,7 +4,6 @@ import android.app.Activity
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
-import com.techlads.swvl.buisness.domain.state.StateMessageCallback
 
 
 /**
@@ -32,16 +31,12 @@ fun View.gone() {
 
 fun Activity.displayToast(
     @StringRes message:Int,
-    stateMessageCallback: StateMessageCallback
 ){
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    stateMessageCallback.removeMessageFromStack()
 }
 
 fun Activity.displayToast(
-    message:String,
-    stateMessageCallback: StateMessageCallback
+    message:String
 ){
     Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
-    stateMessageCallback.removeMessageFromStack()
 }

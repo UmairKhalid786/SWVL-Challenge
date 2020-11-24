@@ -2,6 +2,7 @@ package com.techlads.swvl.framework.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.core.widget.NestedScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -12,11 +13,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.techlads.swvl.framework.ui.detail.ItemDetailActivity
 import com.techlads.swvl.framework.ui.detail.ItemDetailFragment
 import com.techlads.swvl.R
+import com.techlads.swvl.data.models.MoviesResponse
 
 import com.techlads.swvl.dummy.DummyContent
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * An activity representing a list of Pings. This activity
@@ -26,12 +32,16 @@ import com.techlads.swvl.dummy.DummyContent
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
+@AndroidEntryPoint
 class ItemListActivity : AppCompatActivity() {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
+
+    val viewModel : HomeViewModel by viewModels<HomeViewModel>()
+
     private var twoPane: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +51,14 @@ class ItemListActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.title = title
+
+        viewModel.startDataLoad()
+
+        viewModel.content.observe(this , object : Observer<List<MoviesResponse.Data.Movie>> {
+            override fun onChanged(movies: List<MoviesResponse.Data.Movie>?) {
+                Log.e("MOVIES" , movies?.size.toString())
+            }
+        })
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
