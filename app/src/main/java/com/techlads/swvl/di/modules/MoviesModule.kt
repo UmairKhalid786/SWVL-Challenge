@@ -1,7 +1,7 @@
 package com.techlads.swvl.di.modules
 
 import com.techlads.swvl.data.models.MoviesRepositoryImp
-import com.techlads.swvl.repos.MoviesRepository
+import com.techlads.swvl.data.repository.MoviesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

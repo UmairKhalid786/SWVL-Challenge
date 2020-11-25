@@ -3,8 +3,6 @@ package com.techlads.swvl.data
 import android.content.Context
 import android.util.Log
 import com.squareup.moshi.Moshi
-import com.techlads.swvl.data.models.MoviesResponse
-import dagger.hilt.EntryPoint
 import org.json.JSONException
 import java.io.*
 import javax.inject.Inject

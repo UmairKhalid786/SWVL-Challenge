@@ -1,5 +1,7 @@
 package com.techlads.swvl.utils.mappers
 
+import com.techlads.swvl.utils.Resource
+
 
 /**
  *
@@ -11,5 +13,5 @@ package com.techlads.swvl.utils.mappers
 
 
 interface Mapper<I, O> {
-    fun map(input: I?): O
+    fun map(input: I?): Resource<O>
 }

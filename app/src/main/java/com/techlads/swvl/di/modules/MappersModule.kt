@@ -2,9 +2,8 @@ package com.techlads.swvl.di.modules
 
 import com.squareup.moshi.Moshi
 import com.techlads.swvl.data.mappers.MoviesListMapper
-import com.techlads.swvl.data.models.MoviesResponse
+import com.techlads.swvl.data.entities.MoviesResponse
 import com.techlads.swvl.utils.mappers.Mapper
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

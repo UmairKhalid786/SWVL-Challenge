@@ -28,6 +28,11 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <include layout="@layout/item_list" />
+        <ProgressBar
+            android:layout_gravity="center"
+            android:id="@+id/progressBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
     </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

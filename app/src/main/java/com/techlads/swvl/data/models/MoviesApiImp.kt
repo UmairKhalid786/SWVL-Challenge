@@ -1,6 +1,7 @@
 package com.techlads.swvl.data.models
 
 import com.techlads.swvl.data.MoviesClient
+import com.techlads.swvl.data.entities.MoviesResponse
 
 
 /**

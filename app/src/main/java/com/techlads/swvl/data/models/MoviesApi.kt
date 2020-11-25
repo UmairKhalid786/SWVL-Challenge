@@ -1,6 +1,6 @@
 package com.techlads.swvl.data.models
 
-import retrofit2.http.GET
+import com.techlads.swvl.data.entities.MoviesResponse
 
 
 /**

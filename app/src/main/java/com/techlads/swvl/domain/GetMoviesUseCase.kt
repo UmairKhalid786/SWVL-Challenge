@@ -1,7 +1,9 @@
 package com.techlads.swvl.domain
 
-import com.techlads.swvl.data.models.MoviesResponse
-import com.techlads.swvl.repos.MoviesRepository
+import androidx.lifecycle.LiveData
+import com.techlads.swvl.data.entities.MoviesResponse
+import com.techlads.swvl.data.repository.MoviesRepository
+import com.techlads.swvl.utils.Resource
 import javax.inject.Inject
 
 
@@ -15,7 +17,7 @@ import javax.inject.Inject
 
 
 class GetMoviesUseCase @Inject constructor(private val moviesRepository: MoviesRepository) {
-    suspend operator fun invoke(): List<MoviesResponse.Data.Movie> {
+    suspend operator fun invoke(): LiveData<Resource<List<MoviesResponse.Data.Movie>>> {
         return moviesRepository.getMovies()
     }
 }

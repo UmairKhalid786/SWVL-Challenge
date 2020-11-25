@@ -2,12 +2,8 @@ package com.techlads.swvl.framework.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.core.widget.NestedScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.Toolbar
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import android.view.LayoutInflater
 import android.view.View
@@ -15,73 +11,48 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import com.techlads.swvl.framework.ui.detail.ItemDetailActivity
 import com.techlads.swvl.framework.ui.detail.ItemDetailFragment
 import com.techlads.swvl.R
-import com.techlads.swvl.data.models.MoviesResponse
+import com.techlads.swvl.data.entities.MoviesResponse
+import com.techlads.swvl.utils.Resource
+import com.techlads.swvl.utils.visibility
 
-import com.techlads.swvl.dummy.DummyContent
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_item_list.*
+import kotlinx.android.synthetic.main.item_list.*
 
-/**
- * An activity representing a list of Pings. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a [ItemDetailActivity] representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 @AndroidEntryPoint
 class ItemListActivity : AppCompatActivity() {
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-
-    val viewModel : HomeViewModel by viewModels<HomeViewModel>()
-
+    val viewModel : HomeViewModel by viewModels()
     private var twoPane: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.title = title
 
         viewModel.startDataLoad()
+        viewModel.movies.observe(this , onDataObserver)
 
-        viewModel.content.observe(this , object : Observer<List<MoviesResponse.Data.Movie>> {
-            override fun onChanged(movies: List<MoviesResponse.Data.Movie>?) {
-                Log.e("MOVIES" , movies?.size.toString())
-            }
-        })
-
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
+        fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
 
-        if (findViewById<NestedScrollView>(R.id.item_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            twoPane = true
-        }
-
-        setupRecyclerView(findViewById(R.id.item_list))
+        twoPane = item_detail_container != null
+        setupRecyclerView(itemList)
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
+        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, arrayListOf(), twoPane)
     }
 
     class SimpleItemRecyclerViewAdapter(private val parentActivity: ItemListActivity,
-                                        private val values: List<DummyContent.DummyItem>,
+                                        private var values: List<MoviesResponse.Data.Movie>,
                                         private val twoPane: Boolean) :
             RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
@@ -89,11 +60,11 @@ class ItemListActivity : AppCompatActivity() {
 
         init {
             onClickListener = View.OnClickListener { v ->
-                val item = v.tag as DummyContent.DummyItem
+                val item = v.tag as MoviesResponse.Data.Movie
                 if (twoPane) {
                     val fragment = ItemDetailFragment().apply {
                         arguments = Bundle().apply {
-                            putString(ItemDetailFragment.ARG_ITEM_ID, item.id)
+                            putParcelable(ItemDetailFragment.ARG_ITEM, item)
                         }
                     }
                     parentActivity.supportFragmentManager
@@ -102,7 +73,7 @@ class ItemListActivity : AppCompatActivity() {
                             .commit()
                 } else {
                     val intent = Intent(v.context, ItemDetailActivity::class.java).apply {
-                        putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id)
+                        putExtra(ItemDetailFragment.ARG_ITEM, item)
                     }
                     v.context.startActivity(intent)
                 }
@@ -117,8 +88,8 @@ class ItemListActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = values[position]
-            holder.idView.text = item.id
-            holder.contentView.text = item.content
+            holder.idView.text = item.year.toString()
+            holder.contentView.text = item.title
 
             with(holder.itemView) {
                 tag = item
@@ -132,5 +103,35 @@ class ItemListActivity : AppCompatActivity() {
             val idView: TextView = view.findViewById(R.id.id_text)
             val contentView: TextView = view.findViewById(R.id.content)
         }
+
+        fun update(values: List<MoviesResponse.Data.Movie>){
+            this.values = values
+            notifyDataSetChanged()
+        }
+    }
+
+    private val onDataObserver = object : Observer<Resource<List<MoviesResponse.Data.Movie>>> {
+        override fun onChanged(it: Resource<List<MoviesResponse.Data.Movie>>?) {
+            when (it?.status) {
+                Resource.Status.SUCCESS -> {
+                    toggleData(false)
+                    if (!it.data.isNullOrEmpty()) (itemList.adapter as SimpleItemRecyclerViewAdapter).update(it.data)
+                }
+
+                Resource.Status.ERROR -> {
+                    toggleData(false)
+                }
+
+                Resource.Status.LOADING -> {
+                    toggleData(true)
+                }
+            }
+        }
+    }
+
+
+    private fun toggleData(progressVisibility: Boolean) {
+        progressBar.visibility(progressVisibility)
+        itemList.visibility(!progressVisibility)
     }
 }

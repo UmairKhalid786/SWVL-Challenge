@@ -3,6 +3,7 @@ package com.techlads.swvl.di.modules
 import android.content.Context
 import com.squareup.moshi.Moshi
 import com.techlads.swvl.data.MoviesClient
+import com.techlads.swvl.data.db.AppDatabase
 import com.techlads.swvl.data.models.MoviesApi
 import com.techlads.swvl.data.models.MoviesApiImp
 import dagger.Module
@@ -38,4 +39,14 @@ class MainModule  {
     fun provideApi(client: MoviesClient) : MoviesApi {
         return MoviesApiImp(client)
     }
+
+    @Singleton
+    @Provides
+    fun provideDb(@ApplicationContext appContext: Context) : AppDatabase {
+        return AppDatabase.getDatabase(context = appContext)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMoviesDao(db: AppDatabase) = db.moviesDao()
 }

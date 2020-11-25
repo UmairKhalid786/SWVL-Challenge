@@ -1,17 +1,13 @@
 package com.techlads.swvl.framework.ui.home
 
-import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.techlads.swvl.data.models.MoviesRepositoryImp
-import com.techlads.swvl.data.models.MoviesResponse
+import com.techlads.swvl.data.entities.MoviesResponse
 import com.techlads.swvl.domain.GetMoviesUseCase
-import com.techlads.swvl.repos.MoviesRepository
-import dagger.hilt.EntryPoint
+import com.techlads.swvl.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 
 /**
@@ -26,8 +22,7 @@ class HomeViewModel @ViewModelInject constructor(
     private val useCase: GetMoviesUseCase
 ) : ViewModel() {
 
-    private val _content = MutableLiveData<List<MoviesResponse.Data.Movie>>()
-    val content: LiveData<List<MoviesResponse.Data.Movie>> = _content
+    var movies: LiveData<Resource<List<MoviesResponse.Data.Movie>>> =  MutableLiveData<Resource<List<MoviesResponse.Data.Movie>>>()
 
     fun startDataLoad() {
         viewModelScope.launch {
@@ -35,7 +30,7 @@ class HomeViewModel @ViewModelInject constructor(
                 useCase.invoke()
             }
 
-            _content.value = content
+            movies = content
         }
     }
 }
