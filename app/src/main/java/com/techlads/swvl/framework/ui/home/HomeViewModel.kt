@@ -3,6 +3,7 @@ package com.techlads.swvl.framework.ui.home
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.techlads.swvl.data.entities.MoviesResponse
+import com.techlads.swvl.data.repository.MoviesRepository
 import com.techlads.swvl.domain.GetMoviesUseCase
 import com.techlads.swvl.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -19,8 +20,7 @@ import kotlinx.coroutines.withContext
  */
 
 class HomeViewModel @ViewModelInject constructor(
-    private val useCase: GetMoviesUseCase
-) : ViewModel() {
+    private val useCase: MoviesRepository) : ViewModel() {
 
-    fun startDataLoad() : LiveData<Resource<List<MoviesResponse.Data.Movie>>> = useCase.invoke()
+    fun startDataLoad() : LiveData<Resource<List<MoviesResponse.Data.Movie>>> = useCase.getMovies()
 }

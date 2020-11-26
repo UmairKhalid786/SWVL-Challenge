@@ -34,7 +34,7 @@ class ItemDetailFragment : BaseFragment(R.layout.fragment_item_detail) {
 
         item?.let {
             val holder = view?.let { it1 -> DetailSetter(it1) }
-            holder?.setMovie(it, Random(1).nextInt(1))
+            holder?.setMovie(it, -2)
         }
 
         setUpViewModel()

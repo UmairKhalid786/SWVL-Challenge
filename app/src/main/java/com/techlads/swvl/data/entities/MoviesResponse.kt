@@ -33,9 +33,9 @@ data class MoviesResponse(val moviesString: String?) {
             @Json(name = "title") val title: String,
             @Json(name = "year") val year: Int,
             @TypeConverters(StringsConverters::class)
-            @Json(name = "cast") val cast: List<String>,
+            @Json(name = "cast") val cast: List<String>?,
             @TypeConverters(StringsConverters::class)
-            @Json(name = "genres") val genres: List<String>,
+            @Json(name = "genres") val genres: List<String>?,
             @Json(name = "rating") val rating: Int,
         ) : Parcelable
     }

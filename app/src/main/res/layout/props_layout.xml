@@ -43,6 +43,15 @@
         android:isIndicator="true"
         android:max="5"
         android:rating="2" />
+
+    <TextView
+        android:id="@+id/castTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/bottom_margin_tct"
+        android:text="@string/movie"
+        android:textAppearance="?attr/textAppearanceListItemSecondary" />
+
 </LinearLayout>
 
 
