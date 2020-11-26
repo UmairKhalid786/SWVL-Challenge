@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.techlads.swvl">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -11,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SWVLMoviesChallange">
         <activity
-            android:name="com.techlads.swvl.framework.ui.home.ItemListActivity"
+            android:name="com.techlads.swvl.framework.ui.home.MoviesListActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.SWVLMoviesChallange.NoActionBar">
             <intent-filter>
@@ -21,13 +22,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.techlads.swvl.framework.ui.detail.ItemDetailActivity"
+            android:name="com.techlads.swvl.framework.ui.detail.MovieDetailActivity"
             android:label="@string/title_item_detail"
-            android:parentActivityName="com.techlads.swvl.framework.ui.home.ItemListActivity"
+            android:parentActivityName="com.techlads.swvl.framework.ui.home.MoviesListActivity"
             android:theme="@style/Theme.SWVLMoviesChallange.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.techlads.swvl.framework.ui.home.ItemListActivity" />
+                android:value="com.techlads.swvl.framework.ui.home.MoviesListActivity" />
         </activity>
     </application>
 

@@ -1,10 +1,10 @@
 package com.techlads.swvl.data.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import com.techlads.swvl.data.entities.MoviesResponse
+import com.techlads.swvl.data.typeconverters.MoviesConverters
+import com.techlads.swvl.data.typeconverters.StringsConverters
 
 
 /**
@@ -16,7 +16,8 @@ import com.techlads.swvl.data.entities.MoviesResponse
  */
 
 
-@Database(entities = [MoviesResponse.Data.Movie::class], version = 1, exportSchema = false)
+@Database(entities = [MoviesResponse.Data.Movie::class],  version = 1, exportSchema = false)
+@TypeConverters(MoviesConverters::class, StringsConverters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun moviesDao(): MoviesDao

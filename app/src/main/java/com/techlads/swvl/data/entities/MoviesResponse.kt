@@ -1,9 +1,13 @@
 package com.techlads.swvl.data.entities
 
 import android.os.Parcelable
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.squareup.moshi.Json
+import com.techlads.swvl.data.typeconverters.MoviesConverters
+import com.techlads.swvl.data.typeconverters.StringsConverters
 import kotlinx.android.parcel.Parcelize
 
 
@@ -16,7 +20,11 @@ import kotlinx.android.parcel.Parcelize
  */
 
 data class MoviesResponse(val moviesString: String?) {
-    data class Data(@Json(name = "movies") val movies: List<Movie>) {
+    data class Data(@TypeConverters(MoviesConverters::class)
+                    @Embedded
+                    @Json(name = "movies")
+                    val movies: List<Movie>) {
+
         @Parcelize
         @Entity(tableName = "movies")
         data class Movie(
@@ -24,8 +32,10 @@ data class MoviesResponse(val moviesString: String?) {
             val id: Int,
             @Json(name = "title") val title: String,
             @Json(name = "year") val year: Int,
-            @Json(name = "cast") val cast: Array<String>,
-            @Json(name = "genres") val genres: Array<String>,
+            @TypeConverters(StringsConverters::class)
+            @Json(name = "cast") val cast: List<String>,
+            @TypeConverters(StringsConverters::class)
+            @Json(name = "genres") val genres: List<String>,
             @Json(name = "rating") val rating: Int,
         ) : Parcelable
     }

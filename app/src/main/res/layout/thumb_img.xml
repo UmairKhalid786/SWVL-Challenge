@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/thumbIv"
+    android:layout_width="85dp"
+    android:layout_height="130dp"
+    android:layout_marginEnd="@dimen/fab_margin"
+    android:layout_marginRight="@dimen/fab_margin"
+    android:background="@color/thumb_bg"
+    android:scaleType="centerCrop"
+    android:src="@drawable/thumb"
+    app:layout_constraintLeft_toLeftOf="@+id/props" />

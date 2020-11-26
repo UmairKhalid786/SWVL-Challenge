@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 class MoviesListMapper @Inject constructor(var moshi: Moshi) : Mapper<String, List<MoviesResponse.Data.Movie>> {
     override fun map(input: String?): Resource<List<MoviesResponse.Data.Movie>> {
-
         try {
             val adapter = moshi.adapter<Any>(MoviesResponse.Data::class.java)
             val data : MoviesResponse.Data = input?.let { adapter.fromJson(it) } as MoviesResponse.Data

@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 
 class GetMoviesUseCase @Inject constructor(private val moviesRepository: MoviesRepository) {
-    suspend operator fun invoke(): LiveData<Resource<List<MoviesResponse.Data.Movie>>> {
+    fun invoke(): LiveData<Resource<List<MoviesResponse.Data.Movie>>> {
         return moviesRepository.getMovies()
     }
 }

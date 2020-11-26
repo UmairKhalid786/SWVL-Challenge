@@ -22,15 +22,5 @@ class HomeViewModel @ViewModelInject constructor(
     private val useCase: GetMoviesUseCase
 ) : ViewModel() {
 
-    var movies: LiveData<Resource<List<MoviesResponse.Data.Movie>>> =  MutableLiveData<Resource<List<MoviesResponse.Data.Movie>>>()
-
-    fun startDataLoad() {
-        viewModelScope.launch {
-            val content = withContext(Dispatchers.IO) {
-                useCase.invoke()
-            }
-
-            movies = content
-        }
-    }
+    fun startDataLoad() : LiveData<Resource<List<MoviesResponse.Data.Movie>>> = useCase.invoke()
 }

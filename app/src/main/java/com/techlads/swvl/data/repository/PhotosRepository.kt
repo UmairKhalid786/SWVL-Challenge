@@ -1,7 +1,6 @@
 package com.techlads.swvl.data.repository
 
-import androidx.lifecycle.LiveData
-import com.techlads.swvl.data.entities.MoviesResponse
+import com.techlads.swvl.data.entities.FlickerResponse
 import com.techlads.swvl.utils.Resource
 
 
@@ -13,6 +12,6 @@ import com.techlads.swvl.utils.Resource
  * @package com.techlads.swvl.repos
  */
 
-interface MoviesRepository  {
-    fun getMovies() : LiveData<Resource<List<MoviesResponse.Data.Movie>>>
+interface PhotosRepository  {
+    suspend fun getPhotos(search: String): Resource<FlickerResponse>
 }

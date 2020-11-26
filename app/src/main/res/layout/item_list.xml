@@ -6,8 +6,8 @@
     android:name="com.techlads.swvl.ItemListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:clipToPadding="false"
+    android:padding="@dimen/fab_margin"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".framework.ui.home.ItemListActivity"
+    tools:context=".framework.ui.home.MoviesListActivity"
     tools:listitem="@layout/item_list_content" />

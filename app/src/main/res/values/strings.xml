@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SWVL Movies Challange</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="movie">Movie</string>
 </resources>

@@ -2,6 +2,8 @@ package com.techlads.swvl.di.modules
 
 import com.techlads.swvl.data.repository.MoviesRepositoryImp
 import com.techlads.swvl.data.repository.MoviesRepository
+import com.techlads.swvl.data.repository.PhotosRepository
+import com.techlads.swvl.data.repository.PhotosRepositoryImp
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,7 +21,7 @@ import dagger.hilt.android.components.ApplicationComponent
 
 @Module
 @InstallIn(ApplicationComponent::class)
-abstract class MoviesModule {
+abstract class PhotosModule {
     @Binds
-    abstract fun provideMoviesRepository(contentRepositoryImpl: MoviesRepositoryImp): MoviesRepository
+    abstract fun providePhotosRepository(contentRepositoryImpl: PhotosRepositoryImp): PhotosRepository
 }
